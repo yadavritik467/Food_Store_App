@@ -1,6 +1,6 @@
 import  express  from "express"
-import http from 'http';
-import { startWebSocketServer } from './webSocket.js';
+// import http from 'http';
+// import { startWebSocketServer } from './webSocket.js';
 import  router  from "./routes/userRoutes.js"
 import  carousel  from "./routes/carousel.js"
 import  FoodRouter  from "./routes/Foods.js"
@@ -25,12 +25,12 @@ config({path:"./config/config.env"})
 
 
 const app = express();
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const port =  process.env.PORT
 
@@ -92,7 +92,7 @@ app.use("/order",orderRouter)
 app.use("/payment",paymentRouter)
 
 
-startWebSocketServer(server)
+// startWebSocketServer(server)
 
 
 if(process.env.NODE_ENV === "production"){
@@ -103,11 +103,16 @@ if(process.env.NODE_ENV === "production"){
   })
   
 }else{
-  app.get('/',(req,res)=>{
-    res.send('working')
+  // app.get('/',(req,res)=>{
+  //   res.send('working')
+  // })
+
+  app.use('/',express.static(path.join(__dirname,'./Frontend/build')));
+  console.log("working in production mode")
+  app.get("*",(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'./Frontend/build/index.html'));
   })
 }
-
 
 app.listen(port, ()=>{
     console.log(`server is working ${port}`)

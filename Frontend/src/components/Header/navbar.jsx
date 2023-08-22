@@ -40,7 +40,7 @@ const navigate = useNavigate()
     // });
    
     try {
-      // if(auth.user.access === "registerForm"){
+      
         await axios.get("/auth/logout")
         await setAuth({
            ...auth,
@@ -48,17 +48,7 @@ const navigate = useNavigate()
          });
          toast.success("Logout Successfully");
          navigate("/")
-      // }
-      // if(auth.user.access === "google"){
-      //   await axios.get("/auth/googleLogout")
-      //   await setAuth({
-      //      ...auth,
-      //      user: null,
-      //    });
-         
-      //    toast.success("Logout Successfully");
-      //    navigate("/")
-      // }
+     
     } catch (error) {
       console.error(error.message);
     }

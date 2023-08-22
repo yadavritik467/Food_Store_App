@@ -22,7 +22,10 @@ const AuthProvider = ({ children }) => {
       // console.log(response)
       setAuth({...auth,user:response.data.user});
     } catch (error) {
-      console.error('Error fetching user:', error);
+      // console.error('Error fetching user:', error.message);
+      setAuth({
+        user:null
+      })
     }
   };
 

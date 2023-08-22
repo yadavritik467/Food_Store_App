@@ -22,6 +22,9 @@ const Dashboard = () => {
   const [myOrder, setMyOrder] = useState([]);
   const [customers, setCustomers] = useState([]);
    
+    let orderFilter = order.filter((o)=>{
+    return  o.OrderStatus !== "successfully cancel" && o.OrderStatus !== "delievered"
+    })
     let online = order.filter((o)=>{
     return  o.PaymentMethod === "Online" && o.OrderStatus !== "successfully cancel" && o.OrderStatus !== "delievered"
     })
@@ -118,7 +121,7 @@ const Dashboard = () => {
           </p>
           <p>
             {" "}
-            <br /> Total Order : <br /> <span>{order.length}</span> <br />
+            <br /> Total Order : <br /> <span>{orderFilter.length}</span> <br />
           {/* --------------------------------------------------------------------------------- link is yet to be provided route */}
              <Link
               style={{ borderBottom: "1px solid white", color: "blue" }}

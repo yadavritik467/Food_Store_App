@@ -29,7 +29,7 @@ const Context = ({ children }) => {
      setLoad(true);
 
       //  let data2 = await axios.get("https://food-backend-zeta.vercel.app/items/foods");
-       let data2 = await axios.get("https://food-backend-zeta.vercel.app/items/foods");
+       let data2 = await axios.get("/items/foods");
        const  data   = data2.data.food;
       //  console.log(data2);
 

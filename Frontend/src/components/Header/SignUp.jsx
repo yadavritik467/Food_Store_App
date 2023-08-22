@@ -29,7 +29,7 @@ function SignUp({ dark, setDark }) {
     else{    
       try {
         setLoad(true);
-        const {data} = await axios.post("https://food-backend-zeta.vercel.app/auth/register",{
+        const {data} = await axios.post("/auth/register",{
           name,number,email,password,address
         })
         setLoad(false);

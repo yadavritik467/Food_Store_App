@@ -22,7 +22,7 @@ function Login({ dark }) {
 
   const handleGoogleLogin = () => {
   //   setLoad(true)
-      window.location.href = "https://food-backend-zeta.vercel.app/auth/google";
+      window.location.href = "/auth/google";
    
   //   setLoad(false)
   };
@@ -38,7 +38,7 @@ function Login({ dark }) {
       });
       setLoad(true)
       const response = await axios.post(
-        // "https://food-backend-zeta.vercel.app/auth/login",
+        // "/auth/login",
         "/auth/login",
         {
           email,

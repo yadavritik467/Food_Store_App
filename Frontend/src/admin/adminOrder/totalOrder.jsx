@@ -23,7 +23,11 @@ const TotalOrder = () => {
 
 
    const Order = () =>{
-    let myorder = myOrder;
+    let myOrderFilter = myOrder.filter((o) => {
+      return o.OrderStatus !== "successfully cancel" && o.OrderStatus !== "delievered"
+    })
+
+    let myorder = myOrderFilter;
     if (searchQuery) {
       myorder = myorder.filter((data) => {
         return data._id.toLowerCase().includes(searchQuery);

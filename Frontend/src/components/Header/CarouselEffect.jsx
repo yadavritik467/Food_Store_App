@@ -13,7 +13,7 @@ function CarouselEffect({ dark }) {
 //  const[load,setLoad] = useState(false)
   const getAllCarousel = async () => {
     // setLoad(true);
-    const { data } = await axios.get("https://food-backend-zeta.vercel.app/caro/caro-get");
+    const { data } = await axios.get("/caro/caro-get");
     // setLoad(false);
     if (data) {
       setCaro(data.caro);

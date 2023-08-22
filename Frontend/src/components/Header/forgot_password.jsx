@@ -11,7 +11,7 @@ const Forgot_password = ({ dark }) => {
   const forgot_password = async (e) => {
     e.preventDefault();
     try {
-      const { data } = axios.post("https://food-backend-zeta.vercel.app/auth/forgotPassword", {
+      const { data } = axios.post("/auth/forgotPassword", {
         email,
       });
 
