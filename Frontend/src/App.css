@@ -1,0 +1,22 @@
+.App {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  scroll-behavior: smooth;
+  transition:  all .1s ease-in-out;
+  user-select:none;
+}
+
+.App_1 {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  scroll-behavior: smooth;
+  background-color: rgb(18, 17, 17);
+  color: rgba(255, 245, 245, 0.721);
+  transition:  all .1s ease-in-out;
+  user-select: none;
+
+}

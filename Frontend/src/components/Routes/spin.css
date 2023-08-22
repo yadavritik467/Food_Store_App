@@ -1,0 +1,28 @@
+.spin{
+    display: grid;
+    place-items: center;
+    height: 80vh;
+    font-size: 30px;
+}
+
+
+.nfp{position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    place-items: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 15rem;
+   
+    
+}
+
+.nfp p{
+    position: absolute;
+    font-size: 30px;
+    margin-top: 0;
+    
+   
+}
