@@ -8,7 +8,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "frontend": "npm start --prefix ./Frontend",
-    "dev": "concurrently \"npm run server\" \"npm run Frontend\""
+    "dev": "concurrently \"npm run server\" \"npm run Frontend\"",
+    "build" : "npm install && npm install --prefix Frontend && npm run build --prefix Frontend"
   },
   "keywords": [],
   "author": "",
