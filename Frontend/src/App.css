@@ -6,6 +6,7 @@
   scroll-behavior: smooth;
   transition:  all .1s ease-in-out;
   user-select:none;
+  text-rendering: optimizeLegibility;
 }
 
 .App_1 {
@@ -18,5 +19,6 @@
   color: rgba(255, 245, 245, 0.721);
   transition:  all .1s ease-in-out;
   user-select: none;
+  text-rendering: optimizeLegibility;
 
 }
