@@ -11,7 +11,9 @@ const userSchema = new mongoose.Schema({
     // cpassword: { type: String,  select: false },
     address: { type: String, default:null },
     // role: { type: Number, default: 0 },
-    role: { type: String, default: "user" },
+    role: { type: String,
+       default: "user"
+       },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     createdAt: { type: Date, default: Date.now }
@@ -19,20 +21,16 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 // Generating Password Reset Token
-userSchema.methods.getResetPasswordToken = function () {
-    // Generating Token
-    const token = crypto.randomBytes(20).toString("hex");
-  
-    // Hashing and adding resetPasswordToken to userSchema
-    this.resetPasswordToken = crypto
-      .createHash("sha256")
-      .update(token)
-      .digest("hex");
-  
-    this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
-  
-    return token;
-  };
+
+userSchema.methods.getResetPasswordToken = async function (){
+  const resetToken = crypto.randomBytes(20).toString("hex");
+  this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+  this.resetPasswordExpires = Date.now() + 10*60*10000;
+  // console.log(resetToken)
+  return this.resetPasswordToken ;
+
+
+}
 
  const  User = mongoose.model("User", userSchema)
 

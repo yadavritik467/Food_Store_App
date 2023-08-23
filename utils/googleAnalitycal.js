@@ -1,21 +1,18 @@
-// controllers/analyticsController.js
-import ua from "universal-analytics"
-// const ua = require('');
+import axios from 'axios';
 
- const trackPageView = (req, res, next) => {
-  const visitor = ua('G-NYNR53YLS6', { uid: req.user ? req.user._id : 'anonymous' });
+const trackingId = 'G-HJ7XFNPYCC';
+const measurementEndpoint = `https://www.google-analytics.com/collect?v=1&t=event&tid=${trackingId}&cid=CLIENT_ID&ec=order&ea=placed`;
 
-  // Track page views
-  visitor.pageview(req.originalUrl, (err) => {
-    if (err) {
-      console.error('Error tracking page view:', err);
-    }
-  });
-
-  next();
+export const sendOrderPlacedEvent = async (orderId) => {
+  try {
+    // Include the order ID in the measurement endpoint
+    const orderMeasurementEndpoint = `${measurementEndpoint}&cd=${orderId}`;
+    await axios.post(orderMeasurementEndpoint);
+    console.log('Order placed event sent to Google Analytics.');
+  } catch (error) {
+    console.error('Error sending order placed event:', error.message);
+  }
 };
 
-export default  trackPageView
+// Call the function when an order is placed
 
-// You can add more controller functions to track other events if needed
-// For example, you can add a function to track form submissions, button clicks, etc.

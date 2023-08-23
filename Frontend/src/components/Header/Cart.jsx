@@ -37,10 +37,7 @@ function Cart() {
     });
   };
 
-  // account modal
-  // const openModal = () => {
-  //   setPopUpModal(true);
-  // };
+
 
   const closeModal = () => {
     setPopUpModal(false);
@@ -101,39 +98,73 @@ function Cart() {
   };
 
   const orderHandler = async (amount) => {
-    setLoad(true);
-    const { data } = await axios.post(
-      "/payment/payment",
-      { amount: amount }
-    );
-    setShowModal(false);
-    // console.log(data);
-    initPayment(data.data);
-    setLoad(false);
-    setCashLoad(false);
+
+    if(auth.user === null){
+      toast.error("Please create your account");
+      setTimeout(()=>{
+            
+        navigate("/login")
+      },1500)
+    } else if(auth.user.number === null && auth.user.address === null){
+      toast.error("Please enter your address and number");
+      setTimeout(()=>{
+            
+        navigate("/myProfile")
+      },1500)
+    }else{
+
+      setLoad(true);
+      const { data } = await axios.post(
+        "/payment/payment",
+        { amount: amount }
+      );
+      setShowModal(false);
+      // console.log(data);
+      initPayment(data.data);
+      setLoad(false);
+      setCashLoad(false);
+    }
+
   };
 
   const CashHandler = async (amount) => {
-    setCashLoad(true);
 
-    let orderDetail = {};
-    orderDetail.FoodID = Cart;
-    orderDetail.PaymentMethod = CODPayment;
-    orderDetail.paymentInfo = CODPaymentStatus;
-    // orderDetail.totalPrice = amount;
-    orderDetail.user = auth.user;
-    orderDetail.userID = auth.user._id;
-    // setCashLoad(true);
-    await axios.post(
-      "/order/order/new",
-      { orderDetail, amount: amount },
-     
-    );
-    setCashLoad(false);
-    dispatch({
-      type: "CLEAR_ALL",
-    });
-    navigate("/user/paymentSuccess");
+    if(auth.user === null){
+      toast.error("Please create your account");
+      setTimeout(()=>{
+            
+        navigate("/login")
+      },1500)
+    } else if(auth.user.number === null && auth.user.address === null){
+      toast.error("Please enter your address and number");
+      setTimeout(()=>{
+            
+        navigate("/myProfile")
+      },1500)
+    }else{
+      setCashLoad(true);
+      let orderDetail = {};
+      orderDetail.FoodID = Cart;
+      orderDetail.PaymentMethod = CODPayment;
+      orderDetail.paymentInfo = CODPaymentStatus;
+      // orderDetail.totalPrice = amount;
+      orderDetail.user = auth.user;
+      orderDetail.userID = auth.user._id;
+      // setCashLoad(true);
+      await axios.post(
+        "/order/order/new",
+        { orderDetail, amount: amount },
+       
+      );
+      setCashLoad(false);
+      dispatch({
+        type: "CLEAR_ALL",
+      });
+      navigate("/user/paymentSuccess");
+    }
+
+
+    
   };
 
   return (

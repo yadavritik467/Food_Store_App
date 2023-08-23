@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.1b0a1b4a.css",
-    "main.js": "/static/js/main.2b2aa0ac.js",
+    "main.css": "/static/css/main.5ac8db52.css",
+    "main.js": "/static/js/main.9403d990.js",
     "static/media/fish-market-2328964_1920.jpg": "/static/media/fish-market-2328964_1920.10f2b56ebd2cdb31703c.jpg",
     "static/media/order-succes.jpg": "/static/media/order-succes.bc4e5ec9a88aed23521a.jpg",
     "index.html": "/index.html",
-    "main.1b0a1b4a.css.map": "/static/css/main.1b0a1b4a.css.map",
-    "main.2b2aa0ac.js.map": "/static/js/main.2b2aa0ac.js.map"
+    "main.5ac8db52.css.map": "/static/css/main.5ac8db52.css.map",
+    "main.9403d990.js.map": "/static/js/main.9403d990.js.map"
   },
   "entrypoints": [
-    "static/css/main.1b0a1b4a.css",
-    "static/js/main.2b2aa0ac.js"
+    "static/css/main.5ac8db52.css",
+    "static/js/main.9403d990.js"
   ]
 }

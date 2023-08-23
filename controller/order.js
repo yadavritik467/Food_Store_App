@@ -1,5 +1,6 @@
 import Order from "../modals/order.js";
-import { increasePendingOrdersCount } from '../webSocket.js';
+import {sendOrderPlacedEvent} from "../utils/googleAnalitycal.js"
+
 
 export const NewOrder = async (req, res) => {
     try {
@@ -23,7 +24,8 @@ export const NewOrder = async (req, res) => {
         if(order){
             return res.status(200).json({success: true,order, })
         }
-        //    increasePendingOrdersCount()
+        
+        // sendOrderPlacedEvent(userID);
 
     } catch (error) {
         console.error(error);

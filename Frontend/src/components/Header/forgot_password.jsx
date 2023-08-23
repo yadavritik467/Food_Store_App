@@ -5,20 +5,22 @@ import { toast } from "react-hot-toast";
 
 const Forgot_password = ({ dark }) => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+
+ 
   // `Password successfully changed !! now `
   const [load, setLoad] = useState(false);
   const forgot_password = async (e) => {
     e.preventDefault();
     try {
-      const { data } = axios.post("/auth/forgotPassword", {
+      await axios.post("/auth/forgotPassword", {
         email,
       });
 
-      setMessage(data.message);
+    
+      toast.success(`Link has been sent to this email ${email}` )
     } catch (error) {
       console.log(error);
-      toast.error("something went wrong in forgetting password");
+      toast.error(error.message);
       setLoad(false)
     }
   };
@@ -31,12 +33,7 @@ const Forgot_password = ({ dark }) => {
          style={{display: 'flex', flexDirection:"column", padding:"30px", boxShadow:"15px 15px 15px rgba(0,0,0,0.289)",
           justifyContent:"center",alignItems:"center", border: '1px solid lightgrey'}}
       >
-        {message ? (
-          <p style={{ margin: "auto", fontSize: "20px" }}>
-            {message}
-            {/* <Link to={"/login"} >login</Link> */}
-          </p>
-        ) : (
+       
           <div>
             <h4>Reset password</h4> <br />
             <input
@@ -48,13 +45,13 @@ const Forgot_password = ({ dark }) => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
             />
-               <br /> 
+               <br />  <br />
             <button style={{padding:"8px"}} onClick={forgot_password}>
               {" "}
               {load ? <LoginLoader /> : "Send link"}
             </button>
           </div>
-        )}
+        
 
         <br />
       </div>

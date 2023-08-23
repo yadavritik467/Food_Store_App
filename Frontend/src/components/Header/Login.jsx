@@ -38,7 +38,6 @@ function Login({ dark }) {
       });
       setLoad(true)
       const response = await axios.post(
-        // "/auth/login",
         "/auth/login",
         {
           email,

@@ -2,9 +2,10 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt"
 import crypto from "crypto"
 import User from "../modals/users.js"
-import sendPasswordResetEmail from "../utils/sendPasswordResetEmail.js"
+import {sendPasswordResetEmail} from "../utils/sendPasswordResetEmail.js"
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import {sendOrderPlacedEvent} from "../utils/googleAnalitycal.js"
 
 
 export const connectPassport = (res) => {
@@ -83,6 +84,7 @@ export const register = async (req, res) => {
             password: hashPassword,
             address,
         })
+        // await sendOrderPlacedEvent(user)
         await user.save()
         return res.status(200).json({ message: "user created successfully", user })
     } catch (error) {
@@ -162,26 +164,7 @@ export const logOut = async (req, res) => {
     }
 }
 
-export const googleLogout = (req,res) =>{
-    // try {
-    //     if(req.cookies["google"]){
-    //         req.session.destroy((err) => {
-    //             if (err) {
-    //                 console.error('Error destroying session:', err);
-    //             }
 
-    //             // Clear the userID cookie
-    //             res.clearCookie('google');
-    //             res.status(200).json({message:"logout successfully"});
-    //             // console.log("clear cookie", req.cookies)
-
-    //         });
-
-    //     }
-    // } catch (error) {
-    //     console.error(error.message);
-    // }
-}
 
 export const myProfile = async(req,res) =>{
     try {
@@ -189,7 +172,7 @@ export const myProfile = async(req,res) =>{
         if(req.cookies["userID"]){
             const user = await User.findById(req.user._id);
 
-            console.log(user,"cookie is true")
+            // console.log(user,"cookie is true")
             // console.log("user is admin")
         return res.status(200).json({
             success: true,
@@ -228,65 +211,119 @@ export const usersController = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
 
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-        return res.status(404).json({ message: 'User not found.' })
-    };
+    const user = await User.findOne({email:req.body.email})
 
-    const token = user.getResetPasswordToken()
+    if(!user){
+        return res.status(404).json({
+            success: false,
+            message: 'User not found'
+        })
+    }
+
+    const resetPasswordToken = await user.getResetPasswordToken();
+
     await user.save();
+
+
     const resetPasswordUrl = `${req.protocol}://${req.get(
         "host"
-    )}/password/reset/${token}`;
+    )}/password/reset/${resetPasswordToken}`;
 
     const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
 
     try {
-        await sendPasswordResetEmail({ email: user.email, token, message });
-        return res.status(201).json({ message: `link has been  sent successfully in this ${user.email}.` });
+        await sendPasswordResetEmail({
+            email:user.email,
+            subject:"Reset Password",
+            message
+        })
+
+        res.status(200).json({
+            success: true,
+            message:`Link sent to this ${user.email}`
+        })
     } catch (error) {
         user.resetPasswordToken = undefined;
-        user.resetPasswordExpire = undefined;
-        await user.save({ validateBeforeSave: false });
-        console.error(error);
-        return res.status(500).json({ message: 'Internal server error.' });
+        // user.resetPasswordExpires = undefined;
+        await user.save();
+        res.status(500).json({
+                success: false,
+                message: error.message
+            })
     }
 }
 
 // reset password 
 
 export const resetPassword = async (req, res) => {
-//     try {
-//       const { resetToken, newPassword } = req.body;
-  
-//       // Find the user with the reset password token
-//       const user = await User.findOne({
-//         resetPasswordToken: resetToken,
-//         // resetPasswordExpires: { $gt: Date.now()  }
-//       });
-  
-//       if (!user) {
-//         return res.status(400).json({ message: 'Invalid or expired reset password token' });
-//       }
-  
-//       // Hash the new password
-//       const hashedPassword = await bcrypt.hash(newPassword, 10);
-  
-//       // Update user's password
-//       user.password = hashedPassword;
-//       user.resetPasswordToken = undefined;
-//     //   user.resetPasswordExpires = undefined;
-//       await user.save();
-  
-//       return res.status(200).json({ message: 'Password reset successful' });
-//     } catch (error) {
-//       console.error(error);
-//       return res.status(500).json({ message: 'Internal server error' });
-//     }
+    try {
+        // const resetPasswordToken =  crypto.createHash("sha256").update(req.params.token).digest("hex");
+        const resetPasswordToken = req.params.token;
+
+        const user = await User.findOne({
+            resetPasswordToken
+           
+        })
+        // console.log(user)
+       
+        if(!user){
+            return res.status(401).json({
+                success: false,
+                message:"Token is invalid or has expired"
+            })
+        }
+
+        user.password = req.body.newPassword;
+        user.resetPasswordToken = resetPasswordToken;
+        // user.resetPasswordExpires = undefined;
+        await user.save();
+
+        res.status(200).json({
+            success:true,
+            message:"password updated"
+        })
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: false,
+            message:error.message
+        })
+    }
   };
 
+//   update profile
 
-// delete category
+export const updateProfile = async(req,res) =>{
+    try {
+        const user =  await User.findById(req.params.id);
+        const {name,number,email,address} = req.body;
+        if(name){
+            user.name = name;
+        }
+        if(number){
+            user.number = number;
+        }
+        if(email){
+            user.email = email;
+        }
+        if(address){
+            user.address = address;
+        }
+        await user.save();
+        res.status(200).json({
+            success: true,
+            message:"profile updated"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+
+// delete user
 export const deleteUsersController = async (req, res) => {
     try {
         const _id = req.query.id;

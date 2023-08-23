@@ -29,6 +29,8 @@ import OfflineOrder from "./admin/adminOrder/offlineOrder";
 import CancelOrder from "./admin/adminOrder/cancelOrder";
 import DelieverOrder from "./admin/adminOrder/delieverOrder";
 import { initGA } from './utils/anlytics';
+import MyProfile from "./components/Header/MyProfile";
+import ResetPassword from "./components/Header/ResetPassword";
 
 function App({ state }) {
   const [dark, setDark] = useState(false);
@@ -75,7 +77,9 @@ function App({ state }) {
             <Route path="/searchFood" element={<SearchAllFood dark={dark} />} />
             <Route path="/Login" element={<Login dark={dark} />} />
             <Route path="/signUp" element={<SignUp dark={dark} />} />
+            <Route path="/myProfile" element={<MyProfile  dark={dark}/>} />
             <Route path="/Login/forgot_password" element={<Forgot_password  dark={dark}/>} />
+            <Route path='/password/reset/:token' element={<ResetPassword />} />
 
           
               {/* -----------------For admin-----------------------   */}

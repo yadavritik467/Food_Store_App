@@ -4,7 +4,6 @@ import User from "../modals/users.js"
 export const requireSignIn = async (req, res, next) => {
 
     try {
-
         // login panel
        if (req.cookies["google"]) {
             const token = req.cookies["google"];

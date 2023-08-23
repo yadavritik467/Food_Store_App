@@ -1,18 +1,14 @@
 import  express  from "express"
-// import http from 'http';
-// import { startWebSocketServer } from './webSocket.js';
 import  router  from "./routes/userRoutes.js"
 import  carousel  from "./routes/carousel.js"
 import  FoodRouter  from "./routes/Foods.js"
 import  orderRouter  from "./routes/order.js"
 import  paymentRouter  from "./routes/payment.js"
-import  trackPageRouter  from "./routes/googleAnalitycal.js"
 import  mongoDB  from "./controller/db.js"
 import cors  from "cors"
 import session from "express-session"
 import {config} from "dotenv"
 import cloudinary from "cloudinary"
-// import fileUpload from "express-fileupload"
 import passport from "passport"
 import cookieParser from "cookie-parser"
 import { connectPassport } from "./controller/users-controllers.js"
@@ -84,7 +80,6 @@ app.use(passport.session());
 // middleware
 
   
-app.use("/analytics", trackPageRouter)
 app.use("/auth", router)
 app.use("/items",FoodRouter)
 app.use("/caro",carousel)
@@ -92,7 +87,7 @@ app.use("/order",orderRouter)
 app.use("/payment",paymentRouter)
 
 
-// startWebSocketServer(server)
+
 
 
 if(process.env.NODE_ENV === "production"){
@@ -103,15 +98,15 @@ if(process.env.NODE_ENV === "production"){
   })
   
 }else{
-  // app.get('/',(req,res)=>{
-  //   res.send('working')
-  // })
-
-  app.use('/',express.static(path.join(__dirname,'./Frontend/build')));
-  console.log("working in production mode")
-  app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname,'./Frontend/build/index.html'));
+  app.get('/',(req,res)=>{
+    res.send('working')
   })
+
+  // app.use('/',express.static(path.join(__dirname,'./Frontend/build')));
+  // console.log("working in production mode")
+  // app.get("*",(req,res)=>{
+  //   res.sendFile(path.resolve(__dirname,'./Frontend/build/index.html'));
+  // })
 }
 
 app.listen(port, ()=>{
