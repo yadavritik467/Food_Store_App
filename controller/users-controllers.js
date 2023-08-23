@@ -94,7 +94,7 @@ export const register = async (req, res) => {
             const user =  await User.create({
                 name,number,email,password,address
             })
-            console.log(user)
+            // console.log(user)
             return res.status(200).json({
                 success: true,
                 message:"Registered successfully",
