@@ -30,7 +30,7 @@ function SignUp({ dark, setDark }) {
       try {
         setLoad(true);
         const {data} = await axios.post("/auth/register",{
-          name,number,email,password,address
+          name,number,cpassword,email,password,address
         })
         setLoad(false);
         if(data.existingUser){

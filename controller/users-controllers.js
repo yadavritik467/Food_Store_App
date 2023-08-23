@@ -1,11 +1,8 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt"
-import crypto from "crypto"
-import User from "../modals/users.js"
+import {User} from "../modals/users.js"
 import {sendPasswordResetEmail} from "../utils/sendPasswordResetEmail.js"
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import {sendOrderPlacedEvent} from "../utils/googleAnalitycal.js"
+// import {sendOrderPlacedEvent} from "../utils/googleAnalitycal.js"
 
 
 export const connectPassport = (res) => {
@@ -68,28 +65,48 @@ export const connectPassport = (res) => {
 
 export const register = async (req, res) => {
     try {
-        let { name, number, email, password, address, } = req.body
+        const {name,number,email,password,cpassword,address} = req.body;
 
-        const existingUser = await User.findOne({ email })
-        if (existingUser) {
-
-            return res.status(200).json({ message: "this email is already in use", existingUser })
+        const existingUser = await User.findOne({email});
+        if(existingUser){
+            return res.status(200).json({
+                success: false,
+                message: "User already registered",
+                existingUser
+            })
         }
-        const hashPassword = bcrypt.hashSync(password, 10)
-        // const chashedPassword = bcrypt.hashSync(cpassword, 10)
-        const user = await User.create({
-            name,
-            number,
-            email,
-            password: hashPassword,
-            address,
-        })
-        // await sendOrderPlacedEvent(user)
-        await user.save()
-        return res.status(200).json({ message: "user created successfully", user })
+
+        else if( !name || !number || !email || !address){
+            return res.status(200).json({
+                success: false,
+                message: "please fill all the details.. ",
+                
+            })
+        }
+        
+        else if( password !== cpassword){
+            return res.status(200).json({
+                success: false,
+                message: "Password mistach",
+                
+            })
+        } else{
+            const user =  await User.create({
+                name,number,email,password,address
+            })
+            console.log(user)
+            return res.status(200).json({
+                success: true,
+                message:"Registered successfully",
+                user,
+            })
+        } 
+       
     } catch (error) {
-        console.log(error)
-        res.status(500).json("internal server")
+        res.status(500).json({
+            success: false,
+            message:error.message
+        })
     }
 }
 
@@ -108,23 +125,24 @@ export const login = async (req, res, next) => {
             return res.status(400).json({ message: "User doesn't exist !! please create account ", user })
         }
 
-        const isPasswordValid = bcrypt.compareSync(password, user.password)
-
-        if (!isPasswordValid) {
-            return res.status(400).json({ message: "Invalid email or password", })
-        }
-
-        // token
-        // console.log(user._id)
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "365d", })
-        return res.cookie("userID",token,{ 
-            expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-             httpOnly: true,
-             }).json({
-            message: "login successfully",
-            token,
-            user
-        })
+        const isMatch = await user.matchPassword(password);
+             if(!isMatch || isMatch === null ){
+                return res.status(500).json({
+                    success: false,
+                    message:"Invalid password or email"
+                })
+             } else{
+                const token = await user.generateToken();
+                return res.cookie("userID",token,{ 
+                    expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+                     httpOnly: true,
+                     }).json({
+                    message: "login successfully",
+                    token,
+                    user
+                })
+             }
+        
 
     } catch (error) {
         console.log(error);
@@ -211,7 +229,8 @@ export const usersController = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
 
-    const user = await User.findOne({email:req.body.email})
+    try {
+        const user = await User.findOne({email:req.body.email})
 
     if(!user){
         return res.status(404).json({
@@ -250,6 +269,13 @@ export const forgotPassword = async (req, res) => {
                 success: false,
                 message: error.message
             })
+    }
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
     }
 }
 
