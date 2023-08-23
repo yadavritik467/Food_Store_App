@@ -35,7 +35,7 @@ router.post("/forgotPassword", forgotPassword)
 router.put("/password/reset/:token", resetPassword)
 router.put("/updateProfile/:id", requireSignIn, updateProfile)
 
-    router.get("/getUser",requireSignIn,isAdmin, usersController)
+    router.get("/getUser",requireSignIn, usersController)
 router.get("/logout",requireSignIn,logOut)
 router.get("/myProfile",requireSignIn,myProfile)
 

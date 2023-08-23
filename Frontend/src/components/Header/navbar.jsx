@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-
 import { toast } from "react-hot-toast";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { BsSearch } from "react-icons/bs";
@@ -7,9 +6,9 @@ import { GrLocation } from "react-icons/gr";
 import { MdDarkMode, MdDashboardCustomize } from "react-icons/md";
 import { BsSun } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import img1 from "./img/fish-market-2328964_1920.jpg";
 import "../Header/NavbarCo.css";
-import ReactGA from 'react-ga';
 import { Link, useNavigate,  } from "react-router-dom";
 import { CartState } from "../../context/Context";
 import { useAuth } from "../../context/auth";
@@ -31,6 +30,10 @@ const Navbar = ({ dark, toggleDarkMode }) => {
   
 
 const navigate = useNavigate()
+
+const myProfile = () =>{
+  navigate("/myProfile")
+}
 
   const logOut = async() => {
     // ReactGA.event({
@@ -120,6 +123,15 @@ const navigate = useNavigate()
           {auth.user ? (
             <Fragment>
               {(auth.user.role !== "admin") ? (
+                <>
+                <AiOutlineUserAdd
+                onClick={myProfile}
+                style={{
+                  fontSize: "30px",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+                 />
                 <BiLogOut
                   onClick={logOut}
                   style={{
@@ -128,6 +140,7 @@ const navigate = useNavigate()
                     cursor: "pointer",
                   }}
                 />
+                </>
               ) : (
                 <Fragment>
                  <Link style={{textDecoration:"none"}} to={"/admin-dashboard"}> <MdDashboardCustomize

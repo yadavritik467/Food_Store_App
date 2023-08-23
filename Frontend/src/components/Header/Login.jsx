@@ -27,6 +27,8 @@ function Login({ dark }) {
   //   setLoad(false)
   };
 
+  // console.log(handleGoogleLogin)
+
   const onLogin = async (e) => {
     e.preventDefault();
 

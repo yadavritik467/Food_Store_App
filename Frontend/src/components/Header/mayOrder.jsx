@@ -135,7 +135,7 @@ const closeModal = () => {
                    <p style={{padding:"0 0 0 20px"}}> Customer ID : <b>{m.userID}</b> </p>
                   <p style={{padding:"0 0 0 20px"}}> Name : <b>{u.name}</b> </p>
                   <p style={{padding:"0 0 0 20px"}}> Email : <b>{u.email}</b> </p>
-                  <p style={{padding:"0 0 0 20px"}}> Phone No. : <b>{u.phone}</b> </p>
+                  <p style={{padding:"0 0 0 20px"}}> Phone No. : <b>{u.number}</b> </p>
                   <p style={{padding:"0 0 0 20px"}}> Address : <b>{u.address}</b> </p>
                 </div>
               )
