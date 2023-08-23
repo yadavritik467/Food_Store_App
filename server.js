@@ -98,15 +98,15 @@ if(process.env.NODE_ENV === "production"){
   })
   
 }else{
-  app.get('/',(req,res)=>{
-    res.send('working')
-  })
-
-  // app.use('/',express.static(path.join(__dirname,'./Frontend/build')));
-  // console.log("working in production mode")
-  // app.get("*",(req,res)=>{
-  //   res.sendFile(path.resolve(__dirname,'./Frontend/build/index.html'));
+  // app.get('/',(req,res)=>{
+  //   res.send('working')
   // })
+
+  app.use('/',express.static(path.join(__dirname,'./Frontend/build')));
+  console.log("working in production mode")
+  app.get("*",(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'./Frontend/build/index.html'));
+  })
 }
 
 app.listen(port, ()=>{
