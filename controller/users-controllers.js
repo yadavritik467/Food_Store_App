@@ -3,7 +3,7 @@ import {sendPasswordResetEmail} from "../utils/sendPasswordResetEmail.js"
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 // import {sendOrderPlacedEvent} from "../utils/googleAnalitycal.js"
-
+ 
 
 export const connectPassport = (res) => {
     passport.use(new GoogleStrategy({
@@ -20,43 +20,27 @@ export const connectPassport = (res) => {
         passReqToCallback: true
     },
         async (req, res, accessToken, refreshToken, profile, done) => {
-
-
-            // console.log(profile);
             const existingUser = await User.findOne({
                 googleId: profile.id,
             })
-
             if (existingUser) {
-                // User already exists, return the user
-
                 done(null, existingUser);
             } else {
-
-                // Create a new user
                 const user = await User.create({
                     googleId: profile.id,
                     name: profile.displayName,
                     email: profile.emails[0].value,
                     secret: accessToken,
                     access:"google",
-                    // number: profile.phone_number,
-                    // address: profile.address,
                 });
-
-                // console.log(user)
                 done(null, user,);
-
             }
-
-
         }
     )
     )
     passport.serializeUser(function (user, done) {
         done(null, user.id);
     });
-
     passport.deserializeUser(async (user, id, done) => {
         const newUser = await User.findById(id)
         done(null, newUser.id);

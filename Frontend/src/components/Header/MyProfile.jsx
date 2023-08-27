@@ -38,6 +38,7 @@ const MyProfile = () => {
       setEmail("");
       setAddress("");
       setUpdateModal(false);
+      window.location.reload();
       getMyProfile();
       setLoad(false);
       toast.success("profile updated, please refresh the  page");
