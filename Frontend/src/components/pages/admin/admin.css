@@ -1,0 +1,223 @@
+.side-nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+  align-items: center;
+  height: 100vh;
+  width: 300px;
+  background-color: black;
+
+}
+
+.side-nav-phone {
+
+  display: none;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+  align-items: center;
+  /* height: 100%; */
+  height: 0%;
+  /* width: 900%; */
+  width: 100%;
+  background-color: black;
+
+}
+
+.admin-dashboard {
+  display: flex;
+  height: 86vh;
+  border-top: 1px solid black;
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+a {
+  text-decoration: none;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+}
+
+.activeLink {
+  color: rgb(104, 104, 215) !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+}
+
+
+.update-food {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-around;
+  width: 100%;
+  padding: 45px 0;
+  height: fit-content;
+  border: 1px solid lightgray;
+}
+
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  height: fit-content;
+  width: fit-content;
+  border: 1px solid gray;
+
+
+}
+
+form input {
+  margin: 1.5rem;
+  padding: 0 5px;
+  border: 1px solid gray
+}
+
+form select {
+  margin: 1.5rem;
+  padding: 0 5px;
+  border: 1px solid gray;
+}
+
+.food-detail-render {
+  border: 1px solid lightgray;
+  padding: 10px 0;
+  overflow-y: scroll;
+  height: 550px;
+}
+
+Table {
+  color: rgb(108, 108, 115);
+}
+
+.food-detail-render table th {
+  position: sticky;
+  padding: 0 20px;
+  border-bottom: 1px solid black;
+}
+
+.food-detail-render table td {
+  padding: 20px 20px;
+}
+
+
+.admin_caro {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: fit-content;
+  gap: 30px;
+  height: fit-content;
+  overflow-y: hidden scroll;
+  /* border: 1px solid black; */
+}
+
+#dashboard>p {
+  border: 1px solid black;
+  width: 320px;
+  height: 200px;
+  background-color: orange;
+  text-align: center;
+  box-shadow: 10px 10px 5px rgba(43, 45, 46, 0.353);
+}
+
+#dashboard>p>span {
+  color: white;
+  font-size: 3.5rem;
+  text-align: center;
+}
+
+/* CSS for the modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(35, 40, 40, 0.066);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.modal-content {
+  padding: 5px;
+  opacity: 2;
+  z-index: 10;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.modal h2 {
+  margin-top: 0;
+}
+
+.modal form {
+  padding: 20px;
+  
+}
+.modal-content-form > select {
+  /* padding: 10px; */
+  margin: 40px 120px;
+  /* gap: 20px; */
+  justify-content: space-between;
+  
+  
+}
+
+.modal form input {
+  /* width: 100%; */
+  padding: 5px;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-buttons button {
+  padding: 10px;
+  /* margin-left: 10px; */
+}
+
+
+@media screen and (max-width: 600px) {
+  .side-nav {
+    display: none;
+  }
+
+  .side-nav-phone {
+    display: flex;
+    flex-direction: row;
+    height: 60%;
+  }
+
+  .admin-dashboard {
+    height: fit-content;
+    flex-direction: column;
+  }
+
+
+}

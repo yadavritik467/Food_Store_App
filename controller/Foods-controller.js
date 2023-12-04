@@ -1,9 +1,6 @@
 import Food from "../modals/Foods.js";
 import cloudinary from "cloudinary"
 
-
-
-
 export const FoodController = async (req, res) => {
      console.log("img details", req.body.image)
     try {
@@ -11,8 +8,6 @@ export const FoodController = async (req, res) => {
         const myCloud = await cloudinary.v2.uploader.upload(file, {
             folder: "riz-food-image",
             resource_type: "auto",
-            // width:150,
-            // crop:"scale"
         })
         let { image, title, category, price } = req.body
 
@@ -33,14 +28,9 @@ export const FoodController = async (req, res) => {
     }
 }
 
-
-// update category
 export const updateFoodController = async (req, res) => {
-
-
     try {
         const updatedFood = await Food.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        //   console.log(updatedFood)
         return res.status(200).json({
             success: true,
             message: "Food updated successfully",
@@ -52,8 +42,6 @@ export const updateFoodController = async (req, res) => {
     }
 }
 
-
-// single food details
 export const singleFoodController = async (req, res) => {
     try {
         let food = await Food.findById(req.params.id)
@@ -73,9 +61,6 @@ export const singleFoodController = async (req, res) => {
     }
 }
 
-
-
-// delete category
 export const deleteFoodController = async (req, res) => {
     try {
         let food_Id = await Food.findById(req.params.id)
@@ -94,13 +79,8 @@ export const deleteFoodController = async (req, res) => {
     }
 }
 
-
-
-
 // get all food
-
 export const foodGetController = async (req, res) => {
-
     // req.body.user = req.user.id;
     try {
         const foodCount = await Food.countDocuments()
@@ -113,6 +93,4 @@ export const foodGetController = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: "error in getting all Foods" });
     }
-
-
 }

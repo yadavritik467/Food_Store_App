@@ -11,7 +11,6 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   
-
   FoodID: {
     type: Array,
     required: true,
@@ -58,6 +57,7 @@ const orderSchema = new mongoose.Schema({
   },
   paidAt: {
     type: Date,
+    default: Date.now,
   },
 });
 

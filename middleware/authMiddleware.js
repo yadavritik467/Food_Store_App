@@ -22,10 +22,19 @@ export const requireSignIn = async (req, res, next) => {
                     message: "please login first",
                 })
             }
+           try {
             const decoded = await jwt.verify(token, process.env.JWT_SECRET)
             // console.log(decoded)
             req.user = await User.findById(decoded._id)
             next();
+           } catch (error) {
+            if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
+                return res.status(401).json({ message: "Token is invalid or has expired" });
+              } else {
+                console.error(error);
+                res.status(500).json({ error: error });
+              }
+           }
         }
     } catch (error) {
         console.log(error.message);

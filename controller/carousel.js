@@ -2,14 +2,11 @@ import Caro from "../modals/carousel.js";
 import cloudinary from "cloudinary"
 
  export const carouselUpdate = async (req, res) =>{
-  // console.log("img details", req.body.image)
     try {
       const file = req.body.image;
         const myCloud = await cloudinary.v2.uploader.upload(file,{
             folder:"riz-carousel-image",
             resource_type: "auto",
-            // width:150,
-            // crop:"scale"
         })
         let {image,heading,title} = req.body
         const caro = await Caro.create({

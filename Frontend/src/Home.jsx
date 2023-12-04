@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import AllFood from "./components/Header/allFood";
-import CarouselEffect from "./components/Header/CarouselEffect";
+import AllFood from "./components/pages/foods/allFood";
+import CarouselEffect from "./components/pages/carousel/CarouselEffect";
 import SubHeader from "./components/SubHeader/SubHeader"
 
 const Home = ( { dark, setDark}) => {

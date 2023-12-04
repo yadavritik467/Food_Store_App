@@ -33,13 +33,13 @@ router.post("/register", register)
 router.post("/forgotPassword", forgotPassword)
 
 router.put("/password/reset/:token", resetPassword)
-router.put("/updateProfile/:id", requireSignIn, updateProfile)
+router.put("/updateProfile", requireSignIn, updateProfile)
 
     router.get("/getUser",requireSignIn, usersController)
 router.get("/logout",requireSignIn,logOut)
 router.get("/myProfile",requireSignIn,myProfile)
 
-router.delete("/delete-users",requireSignIn, deleteUsersController)
+router.delete("/delete-users/:id",requireSignIn, deleteUsersController)
 
 
 
