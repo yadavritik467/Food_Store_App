@@ -117,6 +117,8 @@ export const login = async (req, res, next) => {
                 })
              } else{
                 const token = await user.generateToken();
+
+                // console.log("login=>",user)
                 return res.cookie("userID",token,{ 
                     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
                      httpOnly: true,
@@ -125,6 +127,8 @@ export const login = async (req, res, next) => {
                     token,
                     user
                 })
+
+                
              }
         
 
@@ -173,15 +177,11 @@ export const myProfile = async(req,res) =>{
         // for login
         if(req.cookies["userID"]){
             const user = await User.findById(req.user._id);
-
-            // console.log(user,"cookie is true")
-            // console.log("user is admin")
         return res.status(200).json({
             success: true,
             user
         })
         }
-
         // for google
         if (req.cookies["google"]) {
             const user = await User.findById(req.user);
@@ -191,8 +191,6 @@ export const myProfile = async(req,res) =>{
                 user
             });
         }
-       
-        
     } catch (error) {
         console.log(error.message)
         return res.status(500).json({ message: error.message });
@@ -305,7 +303,7 @@ export const resetPassword = async (req, res) => {
 
 export const updateProfile = async(req,res) =>{
     try {
-        const user =  await User.findById(req.params.id);
+        const user =  await User.findById(req.user._id);
         const {name,number,email,address} = req.body;
         if(name){
             user.name = name;
@@ -336,7 +334,7 @@ export const updateProfile = async(req,res) =>{
 // delete user
 export const deleteUsersController = async (req, res) => {
     try {
-        const _id = req.query.id;
+        const _id = req.params.id;
         // console.log(req.query)
         const user = await User.findByIdAndDelete(_id)
         return res.status(201).json({ message: " Deleted User " })

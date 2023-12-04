@@ -1,45 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster } from "react-hot-toast";
-import Home from "./Home";
-import Navbar from "./components/Header/navbar";
-import Login from "./components/Header/Login";
-import Cart from "./components/Header/Cart";
-import SignUp from "./components/Header/SignUp";
-import Footer from "./components/Footer/Footer";
-
+import Navbar from "./components/layouts/Header/navbar";
+import Cart from "./components/pages/foods/Cart";
+import Footer from "./components/layouts/Footer/Footer";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-import FoodProducts from "./admin/food-products";
-import Forgot_password from "./components/Header/forgot_password";
-import PaymentSuccess from "./components/Header/paymentSuccess";
-import Private from "./components/Routes/privateRoute";
+import ForgotPassword from "./components/pages/auth/forgot_password";
+import PaymentSuccess from "./components/pages/order/paymentSuccess";
 import NotFound from "./components/Routes/notFound";
 // import AllUsers from "./admin/allUsers";
 // import AdminChart from "./admin/chart";
 // import Payments from "./admin/payments";
-import Dashboard from "./admin/dashboard";
-import MayOrder from "./components/Header/mayOrder";
-import SearchAllFood from "./components/Header/searchAllFood";
-import { useAuth } from "./context/auth";
-import TotalOrder from "./admin/adminOrder/totalOrder";
-import OnlineOrder from "./admin/adminOrder/onlineOrder";
-import OfflineOrder from "./admin/adminOrder/offlineOrder";
-import CancelOrder from "./admin/adminOrder/cancelOrder";
-import DelieverOrder from "./admin/adminOrder/delieverOrder";
-import { initGA } from './utils/anlytics';
-import MyProfile from "./components/Header/MyProfile";
-import ResetPassword from "./components/Header/ResetPassword";
+import Dashboard from "./components/pages/admin/dashboard";
+import MayOrder from "./components/pages/order/mayOrder";
+import SearchAllFood from "./components/pages/foods/searchAllFood";
+import TotalOrder from "./components/pages/admin/adminOrder/totalOrder";
+import OnlineOrder from "./components/pages/admin/adminOrder/onlineOrder";
+import OfflineOrder from "./components/pages/admin/adminOrder/offlineOrder";
+import CancelOrder from "./components/pages/admin/adminOrder/cancelOrder";
+import DelieverOrder from "./components/pages/admin/adminOrder/delieverOrder";
+import ResetPassword from "./components/pages/auth/ResetPassword";
+import { loadUser } from "./redux/action/authAction";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllFood } from "./redux/action/foodAction";
+import Loader from "./components/UI/Loader";
+
+const Home = React.lazy(() => import("./Home"));
+const Login = React.lazy(() => import("./components/pages/auth/Login"));
+const SignUp = React.lazy(() => import("./components/pages/auth/SignUp"));
+const MyProfile = React.lazy(() => import("./components/pages/auth/MyProfile"));
 
 function App({ state }) {
   const [dark, setDark] = useState(false);
-  const [auth] = useAuth();
+  const { isAuthenticate, user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Initialize Google Analytics
-    initGA('G-8Y87L42BT7');
-  }, []);
   //------------------------------------------------------------------------  dakr mode here
   const toggleDarkMode = () => {
     const updatedDarkMode = !dark;
@@ -54,9 +50,12 @@ function App({ state }) {
     }
   }, []);
 
-  //------------------------------------------------------------------------  dakr mode ends here
-
-  // window.addEventListener("contextmenu", (e) => e.preventDefault())    //---------- " this event listener is for preventing inspection of right click in browser "  uncomment it later after completeing this project..
+  useEffect(() => {
+    // for user
+    dispatch(loadUser());
+    // for food
+    dispatch(getAllFood());
+  }, [dispatch]);
 
   return (
     <>
@@ -70,62 +69,92 @@ function App({ state }) {
           <Toaster />
 
           <Routes>
-          
             {/* -----------------For client-----------------------   */}
-            <Route path="/" element={<Home state={state} dark={dark} />} />
+            <Route
+              path="/"
+              element={
+                <Suspense fallback={<Loader />}>
+                  <Home state={state} dark={dark} />
+                </Suspense>
+              }
+            />
 
             <Route path="/searchFood" element={<SearchAllFood dark={dark} />} />
-            <Route path="/Login" element={<Login dark={dark} />} />
-            <Route path="/signUp" element={<SignUp dark={dark} />} />
-            <Route path="/myProfile" element={<MyProfile  dark={dark}/>} />
-            <Route path="/Login/forgot_password" element={<Forgot_password  dark={dark}/>} />
-            <Route path='/password/reset/:token' element={<ResetPassword />} />
+            <Route
+              path="/Login"
+              element={
+                <Suspense fallback={<Loader />}>
+                  <Login dark={dark} />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/signUp"
+              element={
+                <Suspense fallback={<Loader />}>
+                  <SignUp dark={dark} />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/myProfile"
+              element={
+                <Suspense fallback={<Loader />}>
+                  <MyProfile dark={dark} />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/Login/forgot_password"
+              element={<ForgotPassword dark={dark} />}
+            />
+            <Route path="/password/reset/:token" element={<ResetPassword />} />
 
-          
-              {/* -----------------For admin-----------------------   */}
+            {/* -----------------For admin-----------------------   */}
 
-              {auth.user !==null && (
-                <React.Fragment>
-                  {" "}
-                  {auth.user.role === "admin" && (
-                    <React.Fragment>
-                      <Route
-                        path="/admin-dashboard"
-                        element={<Dashboard dark={dark} />}
-                      />
-                      <Route
-                        path="/admin-dashboard/order"
-                        element={<TotalOrder dark={dark} />}
-                      />
-                      <Route
-                        path="/admin-dashboard/onlineOrder"
-                        element={<OnlineOrder dark={dark} />}
-                      />
-                      <Route
-                        path="/admin-dashboard/offlineOrder"
-                        element={<OfflineOrder dark={dark} />}
-                      />
-                      <Route
-                        path="/admin-dashboard/cancelOrder"
-                        element={<CancelOrder dark={dark} />}
-                      />
-                      <Route
-                        path="/admin-dashboard/delieverOrder"
-                        element={<DelieverOrder dark={dark} />}
-                      />
-                    </React.Fragment>
-                  )}
-                  <Route
-                    path="/user/paymentSuccess"
-                    element={<PaymentSuccess />}
-                  />
-                  <Route path="/user/myOrder" element={<MayOrder />} />
-                </React.Fragment>
-              )}
-         
-
+            {user !== null && (
+              <React.Fragment>
+                {" "}
+                {user.role === "admin" && (
+                  <React.Fragment>
+                    <Route
+                      path="/admin-dashboard"
+                      element={<Dashboard dark={dark} />}
+                    />
+                    <Route
+                      path="/admin-dashboard/order"
+                      element={<TotalOrder dark={dark} />}
+                    />
+                    <Route
+                      path="/admin-dashboard/onlineOrder"
+                      element={<OnlineOrder dark={dark} />}
+                    />
+                    <Route
+                      path="/admin-dashboard/offlineOrder"
+                      element={<OfflineOrder dark={dark} />}
+                    />
+                    <Route
+                      path="/admin-dashboard/cancelOrder"
+                      element={<CancelOrder dark={dark} />}
+                    />
+                    <Route
+                      path="/admin-dashboard/delieverOrder"
+                      element={<DelieverOrder dark={dark} />}
+                    />
+                  </React.Fragment>
+                )}
+                <Route
+                  path="/user/paymentSuccess"
+                  element={<PaymentSuccess />}
+                />
+                <Route
+                  path="/user/myOrder"
+                  element={isAuthenticate === true && <MayOrder />}
+                />
+              </React.Fragment>
+            )}
             <Route path="/cart" element={<Cart />} />
-
+            <Route path="/load" element={<Loader />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
 

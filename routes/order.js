@@ -1,6 +1,6 @@
 import express from "express"
 import { isAdmin, requireSignIn } from "../middleware/authMiddleware.js";
-import { NewOrder, deleteOrders, getAllOrders, updateOrders } from "../controller/order.js"
+import { NewOrder, deleteOrders, getAllOrders, myOrder, updateOrders } from "../controller/order.js"
 
 
 
@@ -15,6 +15,6 @@ router.delete("/admin/orders/:id",requireSignIn, deleteOrders)
 
 
 router.post("/order/new",requireSignIn, NewOrder,)
-// router.get("/order/myOrders",  myOrders) 
+router.get("/myOrder",requireSignIn, myOrder) 
 
 export default router
