@@ -74,17 +74,10 @@ export const loadUser = () => async (dispatch) => {
         })
     } catch (error) {
         console.log(error)
-        if(error.response.status === 401){
-            dispatch({
-                type: 'loadUserSuccess',
-                payload: null
-            })
-        }else{
-            dispatch({
-                type: "loadUserFail",
-                payload: error.response.data.message,
-            });
-        }
+        dispatch({
+            type: "loadUserFail",
+            payload: error.response.data.message,
+        });
     }
 }
 

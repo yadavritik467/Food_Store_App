@@ -28,7 +28,7 @@ function Login({ dark }) {
 
     dispatch(loginUser(email,password));
       navigate(location.state || "/");
-      toast.success("Login succesfully");
+      toast.success("Login successfully");
       setLoad(false)
     } catch (error) {
       console.log(error);

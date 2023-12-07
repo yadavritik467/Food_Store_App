@@ -404,7 +404,9 @@ h3 {
 
 .form_login {
   width: 500px;
-  height: auto;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
   padding: 15px 20px;
   border: 2px solid #FFFFFF;
   font-weight: 500;
@@ -441,7 +443,9 @@ h3 {
 
 .form_login_1 {
   width: 500px;
-  height: 430px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
   padding: 10px 15px;
   font-weight: 500;
   margin-top: 5%;
@@ -452,8 +456,9 @@ h3 {
 
 .form_sign {
   width: 500px;
-  height: auto;
-  margin: 0px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
   padding: 0px 20px;
   border: 2px solid #FFFFFF;
   top: 15%;
@@ -465,8 +470,9 @@ h3 {
 
 .form_sign_1 {
   width: 500px;
-  height: auto;
-  margin: 0px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
   padding: 0px 20px;
   border: 2px solid #FFFFFF;
   top: 15%;
