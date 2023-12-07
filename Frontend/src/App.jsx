@@ -9,27 +9,37 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ForgotPassword from "./components/pages/auth/forgot_password";
 import PaymentSuccess from "./components/pages/order/paymentSuccess";
 import NotFound from "./components/Routes/notFound";
-// import AllUsers from "./admin/allUsers";
-// import AdminChart from "./admin/chart";
-// import Payments from "./admin/payments";
-import Dashboard from "./components/pages/admin/dashboard";
-import MayOrder from "./components/pages/order/mayOrder";
 import SearchAllFood from "./components/pages/foods/searchAllFood";
-import TotalOrder from "./components/pages/admin/adminOrder/totalOrder";
-import OnlineOrder from "./components/pages/admin/adminOrder/onlineOrder";
-import OfflineOrder from "./components/pages/admin/adminOrder/offlineOrder";
-import CancelOrder from "./components/pages/admin/adminOrder/cancelOrder";
-import DelieverOrder from "./components/pages/admin/adminOrder/delieverOrder";
 import ResetPassword from "./components/pages/auth/ResetPassword";
 import { loadUser } from "./redux/action/authAction";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllFood } from "./redux/action/foodAction";
 import Loader from "./components/UI/Loader";
 
 const Home = React.lazy(() => import("./Home"));
 const Login = React.lazy(() => import("./components/pages/auth/Login"));
 const SignUp = React.lazy(() => import("./components/pages/auth/SignUp"));
 const MyProfile = React.lazy(() => import("./components/pages/auth/MyProfile"));
+const MayOrder = React.lazy(() => import("./components/pages/order/mayOrder"));
+
+// for admin
+const Dashboard = React.lazy(() =>
+  import("./components/pages/admin/dashboard")
+);
+const TotalOrder = React.lazy(() =>
+  import("./components/pages/admin/adminOrder/totalOrder")
+);
+const OnlineOrder = React.lazy(() =>
+  import("./components/pages/admin/adminOrder/onlineOrder")
+);
+const OfflineOrder = React.lazy(() =>
+  import("./components/pages/admin/adminOrder/offlineOrder")
+);
+const CancelOrder = React.lazy(() =>
+  import("./components/pages/admin/adminOrder/cancelOrder")
+);
+const DelieverOrder = React.lazy(() =>
+  import("./components/pages/admin/adminOrder/delieverOrder")
+);
 
 function App({ state }) {
   const [dark, setDark] = useState(false);
@@ -51,10 +61,7 @@ function App({ state }) {
   }, []);
 
   useEffect(() => {
-    // for user
     dispatch(loadUser());
-    // for food
-    dispatch(getAllFood());
   }, [dispatch]);
 
   return (
@@ -119,27 +126,51 @@ function App({ state }) {
                   <React.Fragment>
                     <Route
                       path="/admin-dashboard"
-                      element={<Dashboard dark={dark} />}
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <Dashboard dark={dark} />
+                        </Suspense>
+                      }
                     />
                     <Route
                       path="/admin-dashboard/order"
-                      element={<TotalOrder dark={dark} />}
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <TotalOrder dark={dark} />
+                        </Suspense>
+                      }
                     />
                     <Route
                       path="/admin-dashboard/onlineOrder"
-                      element={<OnlineOrder dark={dark} />}
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <OnlineOrder dark={dark} />
+                        </Suspense>
+                      }
                     />
                     <Route
                       path="/admin-dashboard/offlineOrder"
-                      element={<OfflineOrder dark={dark} />}
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <OfflineOrder dark={dark} />
+                        </Suspense>
+                      }
                     />
                     <Route
                       path="/admin-dashboard/cancelOrder"
-                      element={<CancelOrder dark={dark} />}
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <CancelOrder dark={dark} />
+                        </Suspense>
+                      }
                     />
                     <Route
                       path="/admin-dashboard/delieverOrder"
-                      element={<DelieverOrder dark={dark} />}
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <DelieverOrder dark={dark} />
+                        </Suspense>
+                      }
                     />
                   </React.Fragment>
                 )}
@@ -149,12 +180,17 @@ function App({ state }) {
                 />
                 <Route
                   path="/user/myOrder"
-                  element={isAuthenticate === true && <MayOrder />}
+                  element={isAuthenticate === true ?
+                    <Suspense fallback={<Loader />}>
+                      <MyProfile dark={dark} />
+                    </Suspense>  :<Suspense fallback={<Loader />}>
+                      <Login dark={dark} />
+                    </Suspense>
+                  }
                 />
               </React.Fragment>
             )}
             <Route path="/cart" element={<Cart />} />
-            <Route path="/load" element={<Loader />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
 

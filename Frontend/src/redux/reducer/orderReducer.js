@@ -1,6 +1,15 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-export const orderReducer = createReducer({}, {
+export const selectMyOrder = (state) => state.orderReducer?.order;
+// export const selectAllOrder = (state) => state.orderReducer?.orders;
+
+export const orderReducer = createReducer({
+    loading: false,
+    message: null,
+    error: null,
+    order: [],
+    orders: []
+}, {
     // for creating order
     orderRequest: (state) => {
         state.loading = true;

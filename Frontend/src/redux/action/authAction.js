@@ -80,7 +80,6 @@ export const loadUser = () => async (dispatch) => {
                 payload: null
             })
         }else{
-
             dispatch({
                 type: "loadUserFail",
                 payload: error.response.data.message,

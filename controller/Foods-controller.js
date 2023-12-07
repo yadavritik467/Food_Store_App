@@ -42,25 +42,6 @@ export const updateFoodController = async (req, res) => {
     }
 }
 
-export const singleFoodController = async (req, res) => {
-    try {
-        let food = await Food.findById(req.params.id)
-        if (!food) {
-            return res.status(500).json({
-                success: false,
-                message: "Food not found"
-            })
-        }
-        return res.status(201).json({
-            success: true,
-            food
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ message: "error in getting single food" });
-    }
-}
-
 export const deleteFoodController = async (req, res) => {
     try {
         let food_Id = await Food.findById(req.params.id)

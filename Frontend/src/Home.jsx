@@ -12,7 +12,7 @@ const Home = ( { dark, setDark}) => {
 
   return (
     <div>
-      <CarouselEffect  dark={dark} setDark={setDark} />
+      {/* <CarouselEffect  dark={dark} setDark={setDark} /> */}
       <SubHeader  filterFood={filterFood}  />
       <AllFood foodType={foodType} dark={dark} setDark={setDark}  />
     </div>
