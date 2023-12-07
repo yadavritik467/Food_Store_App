@@ -39,6 +39,7 @@ export const authReducer = createReducer(
         // my profile
         loadUserRequest: (state) => {
             state.loading = true;
+            state.isAuthenticate =false;
         },
         loadUserSuccess: (state, action) => {
             state.loading = false;

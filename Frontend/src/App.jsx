@@ -178,18 +178,17 @@ function App({ state }) {
                   path="/user/paymentSuccess"
                   element={<PaymentSuccess />}
                 />
-                <Route
-                  path="/user/myOrder"
-                  element={isAuthenticate === true ?
-                    <Suspense fallback={<Loader />}>
-                      <MyProfile dark={dark} />
-                    </Suspense>  :<Suspense fallback={<Loader />}>
-                      <Login dark={dark} />
-                    </Suspense>
-                  }
-                />
+               
               </React.Fragment>
             )}
+             <Route
+                  path="/user/myOrder"
+                  element={
+                    <Suspense fallback={<Loader />}>
+                     {isAuthenticate === true ?  <MayOrder dark={dark} /> : <Login dark={dark}/>}
+                    </Suspense>  
+                  }
+                />
             <Route path="/cart" element={<Cart />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
