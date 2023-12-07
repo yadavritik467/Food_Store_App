@@ -1,4 +1,5 @@
 import axios from "axios";
+import { selectMyOrder } from "../reducer/orderReducer";
 
 export const createOrder = (orderDetail, amount) => async (dispatch) => {
     try {
@@ -25,7 +26,11 @@ export const createOrder = (orderDetail, amount) => async (dispatch) => {
     }
 }
 
-export const myOrder = () => async (dispatch) => {
+export const myOrder = () => async (dispatch,getState) => {
+    const order = selectMyOrder(getState());
+    if (order?.length > 0) {
+      return;
+    }
     try {
         dispatch({
             type: 'getMyOrderRequest'

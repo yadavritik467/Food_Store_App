@@ -17,5 +17,5 @@ const store = configureStore({
 
 export default store
 
-export const URL = "http://localhost:4500" 
+
 

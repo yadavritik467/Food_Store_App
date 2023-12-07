@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Foods from "./foods";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllFood } from "../../../redux/action/foodAction";
 
 function AllFood({ foodType, dark, setDark }) {
   const { foods } = useSelector((state) => state.food);
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getAllFood());
+  },[dispatch])
   return (
     <div id="search">
       {(foodType === "all" || foodType === "Chicken") && (

@@ -17,9 +17,9 @@ const MayOrder = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(allOrder());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(allOrder());
+  // }, [dispatch]);
 
   useEffect(() => {
     dispatch(myOrder());
