@@ -5,10 +5,12 @@ import { getAllFood } from "../../../redux/action/foodAction";
 
 function AllFood({ foodType, dark, setDark }) {
   const { foods } = useSelector((state) => state.food);
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    dispatch(getAllFood());
-  },[dispatch])
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (foods.length === 0) {
+      dispatch(getAllFood());
+    }
+  }, [dispatch, foods]);
   return (
     <div id="search">
       {(foodType === "all" || foodType === "Chicken") && (

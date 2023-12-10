@@ -9,13 +9,14 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ForgotPassword from "./components/pages/auth/forgot_password";
 import PaymentSuccess from "./components/pages/order/paymentSuccess";
 import NotFound from "./components/Routes/notFound";
-import SearchAllFood from "./components/pages/foods/searchAllFood";
 import ResetPassword from "./components/pages/auth/ResetPassword";
 import { loadUser } from "./redux/action/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "./components/UI/Loader";
+import ReactGA from 'react-ga';
 
 const Home = React.lazy(() => import("./Home"));
+const SearchAllFood = React.lazy(() => import("./components/pages/foods/searchAllFood"));
 const Login = React.lazy(() => import("./components/pages/auth/Login"));
 const SignUp = React.lazy(() => import("./components/pages/auth/SignUp"));
 const MyProfile = React.lazy(() => import("./components/pages/auth/MyProfile"));
@@ -46,7 +47,12 @@ function App({ state }) {
   const { isAuthenticate, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  //------------------------------------------------------------------------  dakr mode here
+  ReactGA.initialize('G-YG66C60VXS');
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
+  //------------------------------------------------------------------------  dark mode here
   const toggleDarkMode = () => {
     const updatedDarkMode = !dark;
     setDark(updatedDarkMode);
@@ -86,7 +92,9 @@ function App({ state }) {
               }
             />
 
-            <Route path="/searchFood" element={<SearchAllFood dark={dark} />} />
+            <Route path="/searchFood" element={<Suspense fallback={<Loader />}>
+                  <SearchAllFood dark={dark} />
+                </Suspense>} />
             <Route
               path="/Login"
               element={

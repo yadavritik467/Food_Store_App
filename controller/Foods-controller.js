@@ -1,5 +1,7 @@
 import Food from "../modals/Foods.js";
-import cloudinary from "cloudinary"
+import cloudinary from "cloudinary";
+import NodeCache from 'node-cache';
+const myCache = new NodeCache();
 
 export const FoodController = async (req, res) => {
      console.log("img details", req.body.image)
