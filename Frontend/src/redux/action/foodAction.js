@@ -1,5 +1,4 @@
 import axios from "axios";
-import { selectFoods } from "../reducer/foodReducer";
 
 // for creating food
 export const creatFood =(title,price,image,category) =>async(dispatch) =>{
@@ -32,11 +31,7 @@ export const creatFood =(title,price,image,category) =>async(dispatch) =>{
 
 // for getting food
 export const getAllFood =() =>async(dispatch,getState) =>{
-    const currentFoods = selectFoods(getState().food);
-  if (currentFoods?.length > 0) {
-    console.log('from state =>',currentFoods)
-    return;
-  }
+   
     try {
         dispatch({
             type: 'getAllFoodsRequest'

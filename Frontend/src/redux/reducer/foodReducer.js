@@ -1,10 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 export const foodReducer = createReducer({
+    foods: [],
     loading: false,
     message: null,
     error: null,
-    foods: [],
 }, {
     // for creating foods
     foodsRequest: (state) => {
@@ -62,5 +62,3 @@ export const foodReducer = createReducer({
         state.message = null;
     },
 })
-
-export const selectFoods = (state) => state.foodReducer?.foods;

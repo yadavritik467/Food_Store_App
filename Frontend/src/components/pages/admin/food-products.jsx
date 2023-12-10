@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./admin.css";
-// import SideNav from "./side-nav";
 import { toast } from "react-hot-toast";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiTwotoneEdit } from "react-icons/ai";
@@ -9,11 +8,11 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import LoginLoader from "../../UI/loginLoader";
 import { creatFood, deleteFood, getAllFood, upateFood } from "../../../redux/action/foodAction";
+import { createCarousel, getAllCarousel } from "../../../redux/action/carouselAction";
 
 const FoodProducts = () => {
   const [load, setLoad] = useState(false);
   const [cload, setCload] = useState(false);
-  // const [Foods, setFoods] = useState([]);
   const [image, setImage] = useState("");
   const [items, setItems] = useState({
     title: "",
@@ -24,16 +23,14 @@ const FoodProducts = () => {
 
   const options = ["Chicken", "Egg", "Fish", "Mutton", "SeaFood"];
   const [category, setCategory] = useState(options[0]);
-  const [caro, setCaro] = useState([]);
 
   const {foods} = useSelector((state)=>state.food)
+  const {carousel}= useSelector((state)=>state.carousel)
   const dispatch = useDispatch();
 
   //--------------------------------------------------------------------------------  search filter
 
   const { searchQuery } = useSelector((state)=>state.search);
-  
-
   const transformFood = () => {
     let sortedFood = foods;
     if (searchQuery) {
@@ -49,7 +46,6 @@ const FoodProducts = () => {
   const handleChange = (e) => {
     if (e.target.name === "image") {
       const reader = new FileReader();
-
       reader.onload = () => {
         if (reader.readyState === 2) {
           setImage(reader.result);
@@ -67,8 +63,10 @@ const FoodProducts = () => {
   //--------------------------------------------------------------------------------  getting all food
 
   useEffect(() => {
-    dispatch(getAllFood());
-  }, [dispatch]);
+    if(foods.length === 0){
+      dispatch(getAllFood());
+    }
+  }, [dispatch,foods]);
 
   //--------------------------------------------------------------------------------  food creation
 
@@ -145,20 +143,11 @@ const FoodProducts = () => {
 
   //--------------------------------------------------------------------------------  set carousel
 
-  const getAllCarousel = async (req, res) => {
-    // setLoad(true);
-    const { data } = await axios.get("/caro/caro-get");
-    // setLoad(false);
-    if (data) {
-      setCaro(data.caro);
-      // setLoad(false);
-    }
-    // console.log(data.caro);
-  };
-
   useEffect(() => {
-    getAllCarousel();
-  }, []);
+   if(carousel.length === 0){
+    dispatch(getAllCarousel())
+   }
+  }, [dispatch,carousel]);
 
   // -------------------------------------------------------------------------------- creating Carousel here
 
@@ -166,19 +155,12 @@ const FoodProducts = () => {
     e.preventDefault();
     try {
       setCload(true);
-      const { data } = await axios.post("/caro/caro-update", {
-        title: items.title,
-        heading: items.title,
-        image,
-      });
+      await dispatch(createCarousel({title:items.title,heading:items.title,image}))
+      await dispatch(getAllCarousel());
+   
       setCload(false);
-
-      if (data) {
-        // console.log(data.caro);
-        toast.success("carousel created successfully");
-
-        getAllCarousel();
-      }
+      toast.success("carousel created successfully");
+      getAllCarousel();
     } catch (error) {
       console.log(error);
       toast.error(error.message, error);
@@ -465,7 +447,7 @@ const FoodProducts = () => {
             <p>All your carousel </p> <br />
             <div className="admin_caro">
               {" "}
-              {caro.map((c) => {
+              {carousel.map((c) => {
                 return (
                   <div
                     style={{
