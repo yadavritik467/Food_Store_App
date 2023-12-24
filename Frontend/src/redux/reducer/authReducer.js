@@ -5,6 +5,7 @@ import { clearError, clearMessage } from "../action-types/orderActionType";
 export const authReducer = createReducer(
     {
         loading: false,
+        loaded: false,
         isAuthenticate: false,
         user: null,
         users: null,
@@ -85,6 +86,7 @@ export const authReducer = createReducer(
             .addCase(allUserSuccess, (state, action) => {
                 state.loading = false;
                 state.users = action.payload;
+                state.loaded =true
             })
             .addCase(allUserFail, (state, action) => {
                 state.loading = false;

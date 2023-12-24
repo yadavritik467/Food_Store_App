@@ -15,12 +15,15 @@ const OnlineOrder = () => {
   const [id, setId] = useState("");
 
   const { searchQuery } = useSelector((state) => state.search);
-  const { orders } = useSelector((state) => state.order);
+  const { orders, loaded } = useSelector((state) => state.order);
 
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(allOrder());
-  },[dispatch])
+
+  useEffect(() => {
+    if (loaded !== true) {
+      dispatch(allOrder());
+    }
+  }, [dispatch, loaded]);
   
   const Order = () => {
     let onlineOrder = orders;

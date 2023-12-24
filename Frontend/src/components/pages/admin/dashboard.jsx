@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import SideNav from "./side-nav";
 import AllUsers from "./allUsers";
 import FoodProducts from "./food-products";
 // import AdminChart from "./chart";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import SideNavPhone from "./side-nav-phone";
-import Loader from "../../UI/Loader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { allOrder } from "../../../redux/action/orderAction";
 // import io from 'socket.io-client';
 // import  Socket  from "socket.io";
 
@@ -15,46 +14,35 @@ import { useSelector } from "react-redux";
 // const socket = io('http://localhost:4500')
 
 const Dashboard = () => {
-  const [load,setLoad] = useState(true)
-  const [order, setOrder] = useState([]);
-  const [myOrder, setMyOrder] = useState([]);
   const {users } =useSelector(state => state.auth)
+  const { totalRevenu,orders,loaded } = useSelector((state) => state.order);
+
+  const dispatch = useDispatch()
    
-    let orderFilter = order.filter((o)=>{
-    return  o.OrderStatus !== "successfully cancel" && o.OrderStatus !== "delievered"
+    let orderFilter = orders.filter((o)=>{
+    return  o.OrderStatus !== "successfully cancel"
     })
-    let online = order.filter((o)=>{
+    let online = orders.filter((o)=>{
     return  o.PaymentMethod === "Online" && o.OrderStatus !== "successfully cancel" && o.OrderStatus !== "delievered"
     })
-    let offline = order.filter((o)=>{
+    let offline = orders.filter((o)=>{
     return  o.PaymentMethod === "COD" && o.OrderStatus !== "successfully cancel" && o.OrderStatus !== "delievered"
     })
-    let cancel = order.filter((o)=>{
+    let cancel = orders.filter((o)=>{
     return  o.OrderStatus === "cancel"
     })
-    let totalCancel = order.filter((o)=>{
+    let totalCancel = orders.filter((o)=>{
     return  o.OrderStatus === "successfully cancel"
     })
-    let delievered = order.filter((o)=>{
+    let delievered = orders.filter((o)=>{
     return  o.OrderStatus === "delievered"
     })
 
-  // -------------------------------------------------------------------------------------- total orders
-  const getMyOrder = async () => {
-    setLoad(true)
-    const { data } = await axios.get(
-      "/order/admin/orders"
-    );
-    setLoad(false)
-    if (data) {
-      setOrder(data.order);
-      setMyOrder(data.totalRevenu);
-    }
-  };
-
   useEffect(() => {
-    getMyOrder();
-  }, []);
+    if(loaded !== true){
+      dispatch(allOrder())
+    }
+  }, [dispatch,loaded]);
 
   
 
@@ -66,11 +54,10 @@ const Dashboard = () => {
     >
       <SideNav />
       <SideNavPhone />
-      {load && <Loader/>  } 
+      {/* {load && <Loader/>  }  */}
        <div
         style={{ height: "100vh", overflow: "scroll", scrollBehavior: "smooth" }}
       >
-      
         <div
           id="dashboard"
           style={{
@@ -83,7 +70,7 @@ const Dashboard = () => {
         >
           <p>
             {" "}
-            <br /> Total Revenu : <br /> <span>{myOrder / 100}/-</span>{" "}
+            <br /> Total Revenu : <br /> <span>{totalRevenu / 100}/-</span>{" "}
           </p>
           <p>
             {" "}

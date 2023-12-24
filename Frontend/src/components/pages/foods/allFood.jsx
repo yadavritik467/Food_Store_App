@@ -2,15 +2,16 @@ import React, { useEffect } from "react";
 import Foods from "./foods";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllFood } from "../../../redux/action/foodAction";
+import Loader from "../../UI/Loader";
 
 function AllFood({ foodType, dark, setDark }) {
-  const { foods } = useSelector((state) => state.food);
+  const { foods, loaded, loading } = useSelector((state) => state.food);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (foods.length === 0) {
+    if (loaded !== true) {
       dispatch(getAllFood());
     }
-  }, [dispatch, foods]);
+  }, [dispatch, loaded]);
   return (
     <div id="search">
       {(foodType === "all" || foodType === "Chicken") && (
@@ -25,7 +26,11 @@ function AllFood({ foodType, dark, setDark }) {
                       className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2 mb-2 p-2"
                       key={item._id}
                     >
-                      <Foods data={item} dark={dark} setDark={setDark} />
+                      {loading === true ? (
+                        <Loader />
+                      ) : (
+                        <Foods data={item} dark={dark} setDark={setDark} />
+                      )}
                     </div>
                   );
                 } else {
@@ -49,7 +54,11 @@ function AllFood({ foodType, dark, setDark }) {
                       className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2 mb-2 p-2"
                       key={item._id}
                     >
-                      <Foods data={item} dark={dark} setDark={setDark} />
+                      {loading === true ? (
+                        <Loader />
+                      ) : (
+                        <Foods data={item} dark={dark} setDark={setDark} />
+                      )}
                     </div>
                   );
                 } else {
@@ -73,7 +82,11 @@ function AllFood({ foodType, dark, setDark }) {
                       className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2 mb-2 p-2"
                       key={item._id}
                     >
-                      <Foods data={item} dark={dark} setDark={setDark} />
+                      {loading === true ? (
+                        <Loader />
+                      ) : (
+                        <Foods data={item} dark={dark} setDark={setDark} />
+                      )}
                     </div>
                   );
                 } else {
@@ -96,7 +109,11 @@ function AllFood({ foodType, dark, setDark }) {
                       className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2 mb-2 p-2"
                       key={item._id}
                     >
-                      <Foods data={item} dark={dark} setDark={setDark} />
+                      {loading === true ? (
+                        <Loader />
+                      ) : (
+                        <Foods data={item} dark={dark} setDark={setDark} />
+                      )}
                     </div>
                   );
                 } else {
@@ -119,7 +136,11 @@ function AllFood({ foodType, dark, setDark }) {
                       className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2 mb-2 p-2"
                       key={item._id}
                     >
-                      <Foods data={item} dark={dark} setDark={setDark} />
+                      {loading === true ? (
+                        <Loader />
+                      ) : (
+                        <Foods data={item} dark={dark} setDark={setDark} />
+                      )}
                     </div>
                   );
                 } else {

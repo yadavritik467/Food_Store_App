@@ -6,8 +6,10 @@ export const selectMyOrder = (state) => state.orderReducer?.order;
 
 export const orderReducer = createReducer({
     loading: false,
+    loaded: false,
     message: null,
     error: null,
+    totalRevenu:0,
     order: [],
     orders: []
 }, (builder) => {
@@ -45,6 +47,7 @@ export const orderReducer = createReducer({
             state.loading = false;
             state.orders = action.payload.order;
             state.totalRevenu = action.payload.totalRevenu;
+            state.loaded =true
         })
         .addCase(getAllOrderFail, (state, action) => {
             state.loading = false;

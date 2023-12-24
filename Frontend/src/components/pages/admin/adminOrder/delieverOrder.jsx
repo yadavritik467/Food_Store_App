@@ -7,12 +7,15 @@ import { allOrder, deleteOrder } from "../../../../redux/action/orderAction";
 const DelieverOrder = () => {
   // const [load,setLoad] = useState(false);
   const {searchQuery} = useSelector((state)=>state.search)
- const {orders} = useSelector((state)=>state.order)
+  const { orders, loaded } = useSelector((state) => state.order);
 
- const dispatch = useDispatch();
- useEffect(()=>{
-  dispatch(allOrder());
-},[dispatch])
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (loaded !== true) {
+      dispatch(allOrder());
+    }
+  }, [dispatch, loaded]);
    const Order = () =>{
     let deliverOrder = orders;
     if (searchQuery) {
