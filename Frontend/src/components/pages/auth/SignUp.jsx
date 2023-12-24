@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
 import LoginLoader from "../../UI/loginLoader";
-import { signUpUser } from "../../../redux/action/authAction";
+import { allUser, signUpUser } from "../../../redux/action/authAction";
 
 function SignUp({ dark }) {
   const [name, setName] = useState("");
@@ -31,6 +31,7 @@ function SignUp({ dark }) {
         const {data} = await axios.post("/auth/register",{
           name,number,cpassword,email,password,address
         })
+        dispatch(allUser());
         setLoad(false);
         if(data.existingUser){
           toast.error(data.message)
@@ -41,7 +42,6 @@ function SignUp({ dark }) {
         else{
           toast.success("user created successfully, Now login!!")
           setTimeout(()=>{
-            
             navigate("/login")
           },1500)
         }

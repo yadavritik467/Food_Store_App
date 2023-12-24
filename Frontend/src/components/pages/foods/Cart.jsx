@@ -5,7 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import PaymentLoader from "../../UI/paymentLoad";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrder, myOrder } from "../../../redux/action/orderAction";
+import { allOrder, createOrder, myOrder } from "../../../redux/action/orderAction";
 
 function Cart() {
   const [load, setLoad] = useState(false);
@@ -71,6 +71,7 @@ function Cart() {
       handler: async function (response) {
         await dispatch(createOrder(orderDetail,amount));
         await dispatch(myOrder());
+        await dispatch(allOrder());
         dispatch({
           type: "CLEAR_ALL",
         });
@@ -135,6 +136,7 @@ function Cart() {
       // setCashLoad(true);
       await dispatch(createOrder(orderDetail,amount));
       await dispatch(myOrder());
+      await dispatch(allOrder());
       setCashLoad(false);
       dispatch({
         type: "CLEAR_ALL",

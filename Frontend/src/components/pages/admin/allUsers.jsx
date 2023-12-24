@@ -7,7 +7,7 @@ import { allUser, deleteUser } from "../../../redux/action/authAction";
 
 const AllUsers = () => {
   const [setLoad] = useState(false);
-  const { users, user } = useSelector((state) => state.auth);
+  const { users, user, loaded } = useSelector((state) => state.auth);
   const { searchQuery } = useSelector((state) => state.search);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,8 +16,10 @@ const AllUsers = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(allUser());
-  }, [dispatch]);
+    if (loaded !== true) {
+      dispatch(allUser());
+    }
+  }, [dispatch,loaded]);
 
   const CustomerID = () => {
     let customer = users;
@@ -167,7 +169,7 @@ const AllUsers = () => {
                     }
                   />
                   <li>{currentPage}</li>
-           
+
                   <Pagination.Next
                     onClick={() =>
                       setCurrentPage((prevPage) =>

@@ -6,13 +6,13 @@ import { getAllCarousel } from "../../../redux/action/carouselAction";
 
 
 function CarouselEffect({ dark }) {
- const {carousel}= useSelector((state)=>state.carousel)
+ const {carousel,loaded}= useSelector((state)=>state.carousel)
 const dispatch= useDispatch()
   useEffect(() => {
-   if(carousel.length === 0){
+   if(loaded !== true){
     dispatch(getAllCarousel())
    }
-  }, [dispatch,carousel]);
+  }, [dispatch,loaded]);
   return (
     <div>
       <Carousel className={`carouse ${!dark ? "carousel" : "carousel_1"}`}>

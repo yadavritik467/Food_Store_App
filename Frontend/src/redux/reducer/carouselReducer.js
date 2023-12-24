@@ -5,6 +5,7 @@ import { carouselFail, carouselRequest, carouselSuccess, deleteCarouselFail, del
 export const carouselReducer = createReducer({
     carousel: [],
     loading: false,
+    loaded: false,
     message: null,
     error: null,
 }, (builder) => {
@@ -27,6 +28,7 @@ export const carouselReducer = createReducer({
         .addCase(getAllCarouselSuccess, (state, action) => {
             state.loading = false;
             state.carousel = action.payload;
+            state.loaded = true;
         })
         .addCase(getAllCarouselFail, (state, action) => {
             state.loading = false;

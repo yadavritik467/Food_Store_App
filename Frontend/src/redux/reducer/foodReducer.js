@@ -5,6 +5,7 @@ import { deleteFoodsFail, deleteFoodsRequest, deleteFoodsSuccess, foodsFail, foo
 export const foodReducer = createReducer({
     foods: [],
     loading: false,
+    loaded:false,
     message: null,
     error: null,
 }, (builder) => {
@@ -27,6 +28,7 @@ export const foodReducer = createReducer({
         .addCase(getAllFoodsSuccess, (state, action) => {
             state.loading = false;
             state.foods = action.payload;
+            state.loaded = true
         })
         .addCase(getAllFoodsFail, (state, action) => {
             state.loading = false;
