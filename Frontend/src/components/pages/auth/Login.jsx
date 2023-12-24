@@ -5,7 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import LoginLoader from "../../UI/loginLoader";
 import { FcGoogle } from "react-icons/fc";
 import {useDispatch} from 'react-redux'
-import { loginUser } from "../../../redux/action/authAction";
+import { loadUser, loginUser } from "../../../redux/action/authAction";
 
 function Login({ dark }) {
   const [email, setEmail] = useState("");
@@ -26,7 +26,8 @@ function Login({ dark }) {
     try { 
       setLoad(true)
 
-    dispatch(loginUser(email,password));
+   await dispatch(loginUser(email,password));
+   await dispatch(loadUser());
       navigate(location.state || "/");
       toast.success("Login successfully");
       setLoad(false)

@@ -1,117 +1,117 @@
 import { createReducer } from "@reduxjs/toolkit";
+import { allUserFail, allUserRequest, allUserSuccess, deleteUserFail, deleteUserRequest, deleteUserSuccess, loadUserFail, loadUserRequest, loadUserSuccess, loginFail, loginRequest, loginSuccess, logoutFail, logoutRequest, logoutSuccess, signUpFail, signUpRequest, signUpSuccess, updateProfileFail, updateProfileRequest, updateProfileSuccess } from "../action-types/authActionType";
+import { clearError, clearMessage } from "../action-types/orderActionType";
 
 export const authReducer = createReducer(
     {
         loading: false,
         isAuthenticate: false,
         user: null,
-        users:null,
+        users: null,
         error: null,
         message: null
     },
-    {
+    (builder) => {
         // sign up
-        signUpRequest: (state) => {
+        builder.addCase(signUpRequest, (state) => {
             state.loading = true;
-        },
-        signUpSuccess: (state, action) => {
-            state.loading = false;
-            state.message = action.payload;
-        },
-        signUpFail: (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        },
+        })
+            .addCase(signUpSuccess, (state, action) => {
+                state.loading = false;
+                state.message = action.payload;
+            })
+            .addCase(signUpFail, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
         // login 
-        loginRequest: (state) => {
+        builder.addCase(loginRequest, (state) => {
             state.loading = true;
-        },
-        loginSuccess: (state, action) => {
-            state.loading = false;
-            state.user = action.payload.user;
-            state.message = action.payload.message;
-        },
-        loginFail: (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        },
-
+        })
+            .addCase(loginSuccess, (state, action) => {
+                state.loading = false;
+                state.user = action.payload.user;
+                state.message = action.payload.message;
+            })
+            .addCase(loginFail, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
         // my profile
-        loadUserRequest: (state) => {
+        builder.addCase(loadUserRequest, (state) => {
             state.loading = true;
-            state.isAuthenticate =false;
-        },
-        loadUserSuccess: (state, action) => {
-            state.loading = false;
-            state.isAuthenticate = true;
-            state.user = action.payload;
-        },
-        loadUserFail: (state, action) => {
-            state.loading = false;
             state.isAuthenticate = false;
-            state.user = null;
-            state.error = action.payload;
-        },
-
+        })
+            .addCase(loadUserSuccess, (state, action) => {
+                state.loading = false;
+                state.isAuthenticate = true;
+                state.user = action.payload;
+            })
+            .addCase(loadUserFail, (state, action) => {
+                state.loading = false;
+                state.isAuthenticate = false;
+                state.user = null;
+                state.error = action.payload;
+            })
         // update profile 
-        updateProfileRequest: (state) => {
+        builder.addCase(updateProfileRequest, (state) => {
             state.loading = true;
-        },
-        updateProfileSuccess: (state, action) => {
-            state.loading = false;
-            state.message = action.payload.message;
-        },
-        updateProfileFail: (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        },
+        })
+            .addCase(updateProfileSuccess, (state, action) => {
+                state.loading = false;
+                state.message = action.payload.message;
+            })
+            .addCase(updateProfileFail, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
         // delete users 
-        deleteUserRequest: (state) => {
+        builder.addCase(deleteUserRequest, (state) => {
             state.loading = true;
-        },
-        deleteUserSuccess: (state, action) => {
-            state.loading = false;
-            state.message = action.payload.message;
-        },
-        deleteUserFail: (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        },
+        })
+            .addCase(deleteUserSuccess, (state, action) => {
+                state.loading = false;
+                state.message = action.payload.message;
+            })
+            .addCase(deleteUserFail, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
 
         // allUsers
-        allUserRequest: (state) => {
+        builder.addCase(allUserRequest, (state) => {
             state.loading = true;
-        },
-        allUserSuccess: (state, action) => {
-            state.loading = false;
-            state.users = action.payload;
-        },
-        allUserFail: (state, action) => {
-            state.loading = false;
-            state.users = null;
-            state.error = action.payload;
-        },
+        })
+            .addCase(allUserSuccess, (state, action) => {
+                state.loading = false;
+                state.users = action.payload;
+            })
+            .addCase(allUserFail, (state, action) => {
+                state.loading = false;
+                state.users = null;
+                state.error = action.payload;
+            });
 
         //   for logout 
-        logoutRequest: (state) => {
+        builder.addCase(logoutRequest, (state) => {
             state.loading = true;
-        },
-        logoutSuccess: (state, action) => {
-            state.loading = false;
-            state.isAuthenticate = false;
-            state.message = action.payload;
-            state.user = null;
-        },
-        logoutFail: (state, action) => {
-            state.loading = false;
-            state.isAuthenticate = true;
-            state.error = action.payload;
-        },
-        clearError: (state) => {
+        })
+            .addCase(logoutSuccess, (state, action) => {
+                state.loading = false;
+                state.isAuthenticate = false;
+                state.message = action.payload;
+                state.user = null;
+            })
+            .addCase(logoutFail, (state, action) => {
+                state.loading = false;
+                state.isAuthenticate = true;
+                state.error = action.payload;
+            });
+        builder.addCase(clearError, (state) => {
             state.error = null;
-        },
-        clearMessage: (state) => {
-            state.message = null;
-        },
+        })
+            .addCase(clearMessage, (state) => {
+                state.message = null;
+            });
     }
 )

@@ -122,6 +122,7 @@ export const login = async (req, res, next) => {
                 return res.cookie("userID",token,{ 
                     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
                      httpOnly: true,
+                     sameSite: 'None', secure: true
                      }).json({
                     message: "login successfully",
                     token,
