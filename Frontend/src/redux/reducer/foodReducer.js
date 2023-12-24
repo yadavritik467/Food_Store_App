@@ -1,64 +1,66 @@
 import { createReducer } from "@reduxjs/toolkit";
+import { clearError, clearMessage } from "../action-types/orderActionType";
+import { deleteFoodsFail, deleteFoodsRequest, deleteFoodsSuccess, foodsFail, foodsRequest, foodsSuccess, getAllFoodsFail, getAllFoodsRequest, getAllFoodsSuccess, updateFoodsFail, updateFoodsRequest, updateFoodsSuccess } from "../action-types/foodActionType";
 
 export const foodReducer = createReducer({
     foods: [],
     loading: false,
     message: null,
     error: null,
-}, {
+}, (builder) => {
     // for creating foods
-    foodsRequest: (state) => {
+    builder.addCase(foodsRequest, (state) => {
         state.loading = true;
-    },
-    foodsSuccess: (state, action) => {
-        state.loading = false;
-        state.message = action.payload;
-    },
-    foodsFail: (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-    },
+    })
+        .addCase(foodsSuccess, (state, action) => {
+            state.loading = false;
+            state.message = action.payload;
+        })
+        .addCase(foodsFail, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
     // for getting foods
-    getAllFoodsRequest: (state) => {
+    builder.addCase(getAllFoodsRequest, (state) => {
         state.loading = true;
-    },
-    getAllFoodsSuccess: (state, action) => {
-        state.loading = false;
-        state.foods = action.payload;
-    },
-    getAllFoodsFail: (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-    },
+    })
+        .addCase(getAllFoodsSuccess, (state, action) => {
+            state.loading = false;
+            state.foods = action.payload;
+        })
+        .addCase(getAllFoodsFail, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
     // for updating foods
-    updateFoodsRequest: (state) => {
+    builder.addCase(updateFoodsRequest, (state) => {
         state.loading = true;
-    },
-    updateFoodsSuccess: (state, action) => {
-        state.loading = false;
-        state.message = action.payload;
-    },
-    updateFoodsFail: (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-    },
+    })
+        .addCase(updateFoodsSuccess, (state, action) => {
+            state.loading = false;
+            state.message = action.payload;
+        })
+        .addCase(updateFoodsFail, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
 
     // deleting foods
-    deleteFoodsRequest: (state) => {
+    builder.addCase(deleteFoodsRequest, (state) => {
         state.loading = true;
-    },
-    deleteFoodsSuccess: (state, action) => {
-        state.loading = false;
-        state.message = action.payload;
-    },
-    deleteFoodsFail: (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-    },
-    clearError: (state) => {
+    })
+        .addCase(deleteFoodsSuccess, (state, action) => {
+            state.loading = false;
+            state.message = action.payload;
+        })
+        .addCase(deleteFoodsFail, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
+    builder.addCase(clearError, (state) => {
         state.error = null;
-    },
-    clearMessage: (state) => {
-        state.message = null;
-    },
+    })
+        .addCase(clearMessage, (state) => {
+            state.message = null;
+        });
 })

@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { allOrder, deleteOrder } from "../../../../redux/action/orderAction";
 
 const CancelOrder = () => {
   const { searchQuery } = useSelector((state) => state.search);
@@ -47,12 +48,12 @@ const CancelOrder = () => {
       </Link>{" "}
       <br />
       <input
-        onChange={(e) => {
-          searchDispatch({
-            type: "FILTER_BY_SEARCH",
-            payload: e.target.value,
-          });
-        }}
+       onChange={(e) => {
+        dispatch({
+          type: "FILTER_BY_SEARCH",
+          payload: e.target.value,
+        });
+      }}
         style={{ textAlign:"center" ,width:"100%" }}
         type="text"
         placeholder="search customer ID"
